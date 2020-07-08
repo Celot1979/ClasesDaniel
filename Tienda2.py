@@ -1,7 +1,4 @@
 
-from typing import Dict, Any
-
-
 class Product:
     und = {}
 
@@ -33,6 +30,8 @@ class Product:
         return hash(self._code)
 
 class Catalogue(Product):
+    """Lo que he realizado es una herencia de la clase padre. Aprovechando que existe un diccionario creado
+    voy integrando los productos con los de la clase Product. Hasta la fecha que prové salían todos correctos."""
     def __init__(self,code, descripcion,precio):
         Product.__init__(self, code, descripcion, precio)
 
@@ -53,86 +52,38 @@ class Catalogue(Product):
 
 
 class Store(Catalogue):
-    def __init__(self, code, descripcion, precio,cantidad):
-        self.code = code
-        self.descripcion = descripcion
-        self.precio = precio
-        self.cantidad=0
+    """En está fase está lo más peliagudo, puesto que he de implemetar cantidad dentro del store para que se pueda
+    is creando un stoke. En la comunidad que me recomiendan que lo añada directamente a la clase padre.... Se que cuando
+    añado en el método (add_product_catalogue), y doy a mostrar, me salen todos los campos que quiero.. Lo que no sé
+    como hacer es para sumar la cantidad..."""
+    def __init__(self,code,descripcion,precio,cantidad=1):
+        Catalogue.__init__(self,code,descripcion,precio)
+        self.cantidad += 1
+    def add_product_catalogue(self, code, descripcion, precio, cantidad):
+        self.und[code] = descripcion,precio,cantidad
+        self.cantidad += cantidad
 
 
-    def añadir_tienda(self, code, descripcion, precio,cantidad+=1):
+    def remove_store(self, code, descripcion,):
+        del self.und[code]
 
-        self.und[code] = descripcion, precio,cantidad
-
-    def remove_tienda(self, code):
-        if cantidad > 0:
-            del self.und[code]
-        else:
-            print("No se hay stoke")
-    def find_prduct_store(self, code):
-        print("El Codigo es: "+code)
-
-        if code in self.und.keys():
-            print("El producto y su precio es: "+str(self.und[code]))
-
-        else:
-            print("El contacto no existe")
-    def mostrar_todos_tienda(self):
+    def mostrar_todos_store(self):
         print("Las unidades  son: ")
         for i in self.und.keys():
             print("Code: " + str(i))
-            print("Descripcion: " + str(self.und[i]))
-    def __str__(self):
-        return "En la tienda hay {} unidades de {}, con un precio de {} ".format(self.cantidad, self.descripcion, self.precio)
+            for i in self.und.values():
+                print("Descripcion: " + str(i[0]))
+                print("Precio: " + str(i[1]))
+                print("Cantidad: " + str(i[2]))
 
 
 
 
 
-
-
-
-
-    
-
-
-t = Product(code="1", descripcion="Llaves Allen", precio="40€")
-#print(t)
-#print(t)
-#t.agregar_uni("1", "LLave inglesa", "40€")
-
-"""t.agregar_uni("2", "Llaves Allen", "40€")
-t.agregar_uni("3", "destronillador", "20€")"""
-#t.mostrar_todos()
-"""cata= Catalogue(code="1", descripcion= "Llaves Allen", precio= "40€")
-cata.add_product("4","tijeras", "20€")
-cata.remove_product("4")
-cata.mostrar_todos()
-cata.find_product("3")"""
-tienda = Store(code="4",descripcion="Tijeras", precio="20€",cantidad=0)
-
-tienda.añadir_tienda("5","Martillo", "30€","3")
-tienda.añadir_tienda("4","Martillo", "30€","5")
-
-#print(tienda)
-tienda.mostrar_todos_tienda()
-#print("Tienda")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+a = Product(code="1",descripcion="Llaves Allen",precio="12")
+t = Catalogue(code="2", descripcion="Perchas",precio="12€")
+s = Store(code="3",descripcion="clavos", precio="1€", cantidad=3)
+s.add_product_catalogue(code="4",descripcion="Vaso", precio="5€",cantidad=2)
+s.add_product_catalogue(code="5",descripcion="Copa", precio="3€",cantidad=5)
+s.add_product_catalogue(code="6",descripcion="tenedor", precio="7€",cantidad=7)
+s.mostrar_todos_store()
